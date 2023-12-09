@@ -10,6 +10,7 @@ const cors = require("cors");
 const corsOptions = require("./src/helpers/corsOptions");
 const mongoSanitize = require("express-mongo-sanitize");
 const path = require("path");
+const apiLimiter = require("./src/middlewares/rateLimit");
 
 //Middleware
 app.use(express.json());
@@ -25,6 +26,7 @@ app.use('/uploads', express.static(__dirname))
 // Node.js'de "CORS," Cross-Origin Resource Sharing'ın kısaltmasıdır.
 // Bu, tarayıcıların başka bir alanın kaynaklarına erişimi denetlemek için uyguladığı bir güvenlik özelliğidir.
 app.use(cors(corsOptions));
+app.use('/api', apiLimiter)
 
 // Tehlikeli karakterleri bu karakterle değiştir
 app.use(
